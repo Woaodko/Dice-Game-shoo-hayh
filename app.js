@@ -1,20 +1,45 @@
 // toglogchiin eeljiig hadgalah huwisagdch negdvgeer toglogchig  0  , 2 dugar toglogchiig  1 gej temdeglew 
-var activePlayer = 0;
+var activePlayer;
 
 // toglogchidiin  tsugluulsan  onoog hadgalah  huwisagch
-var scores = [0, 0]
+var scores;
 
 // toglogchiin eeljindee  tsugluulj baigaa onoog harah huwisagch
-var roundScore = 0;
+
+var roundScore;
 
 //shoonii ali talaaraa buusniig  hadgalah huwisagch hergttei 1-6 gsn utgiig ene huwisagchid sanamsarguigeer  uusgej ugnu 
-document.getElementById("score-0").textContent = 0;
-document.getElementById("score-1").textContent = 0;
-document.getElementById("current-0").textContent = 0;
-document.getElementById("current-1").textContent = 0;
 
 var diceDom = document.querySelector(".dice")
-diceDom.style.display = 'none';
+initGame();
+
+//togloomiig shineer ehlehed beltgene
+function initGame() {
+    activePlayer = 0;
+
+    scores = [0, 0]
+
+    roundScore = 0;
+
+    document.getElementById("score-0").textContent = 0;
+    document.getElementById("score-1").textContent = 0;
+    document.getElementById("current-0").textContent = 0;
+    document.getElementById("current-1").textContent = 0;
+
+
+    //toglogchidiin neriig butsaaj gargah 
+    document.getElementById("name-0").textContent = "Player 1";
+    document.getElementById("name-1").textContent = "Player 2";
+    document.querySelector(".player-0-panel").classList.remove("winner");
+    document.querySelector(".player-1-panel").classList.remove("winner");
+
+    document.querySelector(".player-0-panel").classList.remove("active");
+    document.querySelector(".player-1-panel").classList.remove("active");
+
+    document.querySelector(".player-0-panel").classList.add("active");
+    diceDom.style.display = "none";
+}
+
 
 //shoog shideh eventListerner 
 document.querySelector(".btn-roll").addEventListener("click", function () {
@@ -77,4 +102,5 @@ function switchToNextPlayer() {
     diceDom.style.display = "none";
     //toglochhiin eeljiig solino 
 }
-// shine togloom ehluuleh eventlistener
+// NEw game darhad shine togloom ehluuleh eventlistener
+document.querySelector(".btn-new").addEventListener("click", initGame)
