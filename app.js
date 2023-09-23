@@ -1,4 +1,8 @@
 // toglogchiin eeljiig hadgalah huwisagdch negdvgeer toglogchig  0  , 2 dugar toglogchiig  1 gej temdeglew 
+
+// togloom duussan esehiig hadgalah  tuluwiin huwisagch 
+var isNewGame;
+
 var activePlayer;
 
 // toglogchidiin  tsugluulsan  onoog hadgalah  huwisagch
@@ -15,6 +19,9 @@ initGame();
 
 //togloomiig shineer ehlehed beltgene
 function initGame() {
+
+    isNewGame = true;
+
     activePlayer = 0;
 
     scores = [0, 0]
@@ -39,52 +46,62 @@ function initGame() {
     document.querySelector(".player-0-panel").classList.add("active");
     diceDom.style.display = "none";
 }
-
-
 //shoog shideh eventListerner 
 document.querySelector(".btn-roll").addEventListener("click", function () {
-    //1-6 dotorh sanamsargui neg too  gargaj awna
-    var diceNumber = Math.floor(Math.random() * 6) + 1;
-    //shoonii zurgiig  web der gargaj irne 
-    diceDom.style.display = "block";
+    if (isNewGame === true) {
+        //1-6 dotorh sanamsargui neg too  gargaj awna
+        var diceNumber = Math.floor(Math.random() * 6) + 1;
+        //shoonii zurgiig  web der gargaj irne 
+        diceDom.style.display = "block";
+        // buusan sannamsargui toond  hargalzah shoonii zurgiig  web der  garagh
+        diceDom.src = 'dice-' + diceNumber + '.png'
+        // buusan too ni 1 ees  yalgatai bol idwehtei  toglogchiin  eeljiin onoog nemgduulne 
+        if (diceNumber !== 1) {
+            // 1 ees uur  too buulaa . buusan toog toglogchid nemj ugnu 
+            roundScore = roundScore + diceNumber;
+            document.getElementById("current-" + activePlayer).textContent = roundScore;
+        }
+        else {
+            // 1 buusan tul toglochiin  eeljiin ene hesegt  solij ugnu 
+            switchToNextPlayer();
+        }
 
-    // buusan sannamsargui toond  hargalzah shoonii zurgiig  web der  garagh
-    diceDom.src = 'dice-' + diceNumber + '.png'
-
-    // buusan too ni 1 ees  yalgatai bol idwehtei  toglogchiin  eeljiin onoog nemgduulne 
-    if (diceNumber !== 1) {
-        // 1 ees uur  too buulaa . buusan toog toglogchid nemj ugnu 
-        roundScore = roundScore + diceNumber;
-        document.getElementById("current-" + activePlayer).textContent = roundScore;
-    }
-    else {
-        // 1 buusan tul toglochiin  eeljiin ene hesegt  solij ugnu 
-
-        switchToNextPlayer();
+    } else {
+        alert("Тоглоом дууссан байна. NEW Game дарна уу.")
     }
 
 });
 // hold towchnii eventListenner
 document.querySelector('.btn-hold').addEventListener('click', function () {
-    //ug toglochiin tsugluulsan onoog global onoonder ni nemj ugnu 
-    scores[activePlayer] = scores[activePlayer] + roundScore;
-    //ug toglogch hojson esehiig shalgah (onooni 100gas ih eseh shalgah)
+    if (isNewGame === true) {
+        //ug toglochiin tsugluulsan onoog global onoonder ni nemj ugnu 
+        scores[activePlayer] = scores[activePlayer] + roundScore;
+        //ug toglogch hojson esehiig shalgah (onooni 100gas ih eseh shalgah)
 
-    document.getElementById("score-" + activePlayer).textContent = scores[activePlayer]
+        document.getElementById("score-" + activePlayer).textContent = scores[activePlayer]
 
-    if (scores[activePlayer] >= 20) {
-        //yalgch gsn text iig nerniihen orond garga 
-        document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
-        document.querySelector(".player" + activePlayer + "-panel").classList.add("winner");
-        document.querySelector(".player" + activePlayer + "-panel").classList.remove("active");
+        if (scores[activePlayer] >= 10) {
+            //togloomiig duussan tuluwt oruulna 
+            isNewGame = false;
+
+            //yalgch gsn text iig nerniihen orond garga 
+            document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+            document.querySelector(".player" + activePlayer + "-panel").classList.add("winner");
+            document.querySelector(".player" + activePlayer + "-panel").classList.remove("active");
+        }
+        else {
+            // toglogchin eeljig solino 
+            switchToNextPlayer();
+        }
+        //delgetsendeer onoog oorchilno 
+        // document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
+        //toglochhiin eeljiig solino 
     }
     else {
-        // toglogchin eeljig solino 
-        switchToNextPlayer();
+        alert("Тоглоом дууссан байна. NEW Game дарна уу.")
     }
-    //delgetsendeer onoog oorchilno 
-    // document.getElementById("score-" + activePlayer).textContent = scores[activePlayer];
-    //toglochhiin eeljiig solino 
+
+
 }
 )
 //энэ функц нь тоглох ээлжийг дараачийн тоглогчруу шилжүүлдэг
